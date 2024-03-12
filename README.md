@@ -8,12 +8,13 @@ Encoding Categorical Variables: Machine learning models require numerical input,
 Feature Engineering: You might want to extract or create new features from existing ones. For example, the age of the car (current_year - year) could be a more useful feature than the year alone.
 
 2. Feature Selection
-Decide which features are relevant for predicting the sellingprice. It's likely that most of the features you've listed will be useful, but some may have more predictive power than others. Features like vin might not be directly useful for predicting the price unless you're extracting information from it, like manufacturer or vehicle type. Also, saledate could be converted into more useful features, such as the sale month or day of the week, if you suspect seasonal or weekly patterns in car prices.
-3. Splitting the Data
+Decide which features are relevant for predicting the sellingprice. It's likely that most of the features you've listed will be useful, but some may have more predictive power than others. Features like vin might not be directly useful for predicting the price unless
+you're extracting information from it, like manufacturer or vehicle type. Also, saledate could be converted into more useful features, such as the sale month or day of the week, if you suspect seasonal or weekly patterns in car prices.
+4. Splitting the Data
 Split your dataset into a training set and a testing set. A common practice is to use 80% of the data for training and 20% for testing.
-4. Choosing a Model
+5. Choosing a Model
 Based on your problem, regression models are suitable. You might start with simpler models like Linear Regression to establish a baseline and then explore more complex models like Random Forest or Gradient Boosting Regressors if necessary.
-5. Training the Model
+6. Training the Model
 Here's a basic example of how you might prepare your data and train a model using Python's pandas and scikit-learn libraries. This example assumes you've already loaded your dataset into a DataFrame named df:
 
 
