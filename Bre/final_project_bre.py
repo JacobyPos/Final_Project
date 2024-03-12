@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 # DataFrame 'df'
-df = pd.read_csv("final_project2.csv")
+df = pd.read_csv("car_prices.csv")
 
 # Ket features and target 
 features = ['year', 'make', 'model', 'color', 'price']
@@ -22,7 +22,7 @@ X-train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 
 # Jeep model vehicles only
-df = df[['make']=='Jeep']
+df = df[['model']= 'Jeep']
 
 # dropping columns
 df = df.drop(columns=['year', 'model', 'color', 'price'])
