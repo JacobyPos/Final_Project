@@ -1,67 +1,41 @@
-import numpy as pd #liner algebra
-import pandas as pd #data processing, CSV file final_project2
-
-import os
-
-import pandas as pd 
+import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 
-# DataFrame 'df'
+# Load the dataset
 df = pd.read_csv("car_prices.csv")
 
-# Ket features and target 
-features = ['year', 'make', 'model', 'color', 'price']
-target = 'year'
+# Filter for Jeep models before doing anything else, assuming 'model' is a column in your CSV
+df_jeep = df[df['model'] == 'Jeep']
 
-# Split data into features (X) and target (y)
-X = df[features]
-y = df[target]
+# Since predicting 'year' as a target with 'year' as a feature doesn't make sense, let's assume the target is 'price'
+features = ['year', 'make', 'model', 'mileage', 'color']  # Assuming 'mileage' is also a relevant feature
+target = 'price'
+
+# Ensuring the features list only contains columns present in df_jeep and excluding the target
+features = [feature for feature in features if feature in df_jeep.columns and feature != target]
+
+# Splitting data into features (X) and target (y) based on the corrected features list
+X = df_jeep[features]
+y = df_jeep[target]
 
 # Split the dataset into training and test sets
-X-train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Create a random forest regressor
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
 
-# Jeep model vehicles only
-df = df[['model']= 'Jeep']
+# Fit the model to the training data
+rf_model.fit(X_train, y_train)
 
-# dropping columns
-df = df.drop(columns=['year', 'model', 'color', 'price'])
+# Predict on the test data
+predictions = rf_model.predict(X_test)
 
-# dropping nuls 
-df = df.dropna()
+# Creating a DataFrame with actual and predicted prices for comparison
+results_df = pd.DataFrame({'Actual Price': y_test, 'Predicted Price': predictions})
 
-# reduce data 
-df = df.sample(frac=.5,random_state=42)
-# creating dataframe for year
+# Display the first few rows of the results
+print(results_df.head())
 
-df.head()
-
-
-
-year_df = cleaned_df.drop(columns= make)
-
-# data predictions
-year_pred = rf_model.predict(X_year)
-
-
-# create a random forest refressor 
-rf_model = RandomForestRegressor(n_estimators=100, random_state_42)
-
-# Model fit data
-rf_model.fit(X_year_train, y_year_train)
-
-# Predict on all data
-Year_pred = rf_model.predict(X_year)
-
-# Creating dataframe with predictions included
-final_df = df
-final_df['decade prediction'] = year_pred
-final_df['model prediction'] = model_pred
-final_df['price prediction'] = no_pred
-
-final_df
-
-
-# Pushing dataframe with predictions to a csv
-final_df.to_csv('final_predictions_dodge.csv', index=False)
-
+# Save the predictions to a CSV file
+results_df.to_csv('jeep_model_price_predictions.csv', index=False)
